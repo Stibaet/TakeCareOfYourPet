@@ -25,7 +25,6 @@ class PetsCoordinator: ParentCoordinator {
     }
     
     func start() {
-        print("start pets")
         let petsVC = PetsViewController()
         navigationController.viewControllers = [petsVC]
     }
