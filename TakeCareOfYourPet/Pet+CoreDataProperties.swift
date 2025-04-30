@@ -16,14 +16,14 @@ extension Pet {
         return NSFetchRequest<Pet>(entityName: "Pet")
     }
 
-    @NSManaged public var id: UUID?
-    @NSManaged public var name: String?
+    @NSManaged public var id: UUID
+    @NSManaged public var name: String
     @NSManaged public var age: Int16
-    @NSManaged public var breed: String?
+    @NSManaged public var breed: String
     @NSManaged public var weight: Int16
-    @NSManaged public var type: String?
+    @NSManaged public var type: String
     @NSManaged public var isNeutered: Bool
-    @NSManaged public var owner: User?
+    @NSManaged public var owner: User
     @NSManaged public var tasks: NSOrderedSet?
 
 }

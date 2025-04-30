@@ -39,6 +39,7 @@ class AppCoordinator: ParentCoordinator {
     }
     
     func start() {
+        configureAppearance()
         let tabBarController = UITabBarController()
         
         let petsCoordinator = PetsCoordinator()
@@ -58,8 +59,30 @@ class AppCoordinator: ParentCoordinator {
         window.rootViewController = tabBarController
         window.makeKeyAndVisible()
     }
+}
+
+//MARK: - private methods
+private extension AppCoordinator {
+    func configureAppearance() {
+        let navBarAppearance = UINavigationBarAppearance()
+        navBarAppearance.configureWithOpaqueBackground()
+        navBarAppearance.backgroundColor = .white
+        navBarAppearance.titleTextAttributes = [.foregroundColor: UIColor.black]
+        
+        UINavigationBar.appearance().standardAppearance = navBarAppearance
+        UINavigationBar.appearance().scrollEdgeAppearance = navBarAppearance
+        UINavigationBar.appearance().compactAppearance = navBarAppearance
+        UINavigationBar.appearance().tintColor = .systemBlue
+        
+        let tabBarAppearance = UITabBarAppearance()
+        tabBarAppearance.configureWithOpaqueBackground()
+        tabBarAppearance.backgroundColor = .white
+        
+        UITabBar.appearance().standardAppearance = tabBarAppearance
+        UITabBar.appearance().scrollEdgeAppearance = tabBarAppearance
+    }
     
-    private func setupTabBarItems(for tabBarController: UITabBarController) {
+    func setupTabBarItems(for tabBarController: UITabBarController) {
         guard let items = tabBarController.tabBar.items else { return }
         
         items[0].title = "Питомцы"
