@@ -16,7 +16,6 @@ class SettingsCoordinator: NavigationCoordinator {
     }
     
     func start() {
-        print("start settings")
         let settingsVC = SettingsViewController()
         navigationController.viewControllers = [settingsVC]
     }

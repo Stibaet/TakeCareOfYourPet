@@ -25,7 +25,6 @@ class TasksCoordinator: ParentCoordinator {
     }
     
     func start() {
-        print("start tasks")
         let tasksVC = TasksViewController()
         navigationController.viewControllers = [tasksVC]
     }
