@@ -42,9 +42,13 @@ class AppCoordinator: ParentCoordinator {
         configureAppearance()
         let tabBarController = UITabBarController()
         
-        let petsCoordinator = PetsCoordinator()
-        let tasksCoordinator = TasksCoordinator()
-        let settingsCoordinator = SettingsCoordinator()
+        let petsNavVC = UINavigationController()
+        let tasksNavVC = UINavigationController()
+        let settingsNavVC = UINavigationController()
+        
+        let petsCoordinator = PetsCoordinator(navigationController: petsNavVC)
+        let tasksCoordinator = TasksCoordinator(navigationController: tasksNavVC)
+        let settingsCoordinator = SettingsCoordinator(navigationController: settingsNavVC)
         
         childCoordinators = [petsCoordinator, tasksCoordinator, settingsCoordinator]
         childCoordinators.forEach { $0.start() }
@@ -57,7 +61,14 @@ class AppCoordinator: ParentCoordinator {
         
         setupTabBarItems(for: tabBarController)
         window.rootViewController = tabBarController
+        window.overrideUserInterfaceStyle = .light
         window.makeKeyAndVisible()
+    }
+    
+    func showAuthFlow() {
+        let authNavVC = UINavigationController()
+        let authCoordinator = AuthCoordinator(navigationController: authNavVC)
+        addChild(authCoordinator)
     }
 }
 

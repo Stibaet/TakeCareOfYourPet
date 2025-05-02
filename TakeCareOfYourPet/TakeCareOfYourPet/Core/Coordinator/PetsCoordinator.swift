@@ -20,8 +20,8 @@ class PetsCoordinator: ParentCoordinator {
     
     var navigationController: UINavigationController
     
-    init() {
-        navigationController = UINavigationController()
+    init(navigationController: UINavigationController) {
+        self.navigationController = navigationController
     }
     
     func start() {
