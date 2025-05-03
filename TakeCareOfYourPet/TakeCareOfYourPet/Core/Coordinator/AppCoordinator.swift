@@ -22,24 +22,18 @@ protocol ParentCoordinator: Coordinator {
 }
 
 class AppCoordinator: ParentCoordinator {
-    func addChild(_ coordinator: Coordinator) {
-        childCoordinators.append(coordinator)
-    }
     
-    func removeChild(_ coordinator: Coordinator) {
-        childCoordinators.removeAll { $0 === coordinator }
-    }
-    
+    //MARK: - properties
     var childCoordinators: [Coordinator] = []
-    
     private let window: UIWindow
     
+    //MARK: - init
     init(window: UIWindow) {
         self.window = window
     }
     
+    //MARK: - public methods
     func start() {
-        configureAppearance()
         let tabBarController = UITabBarController()
         
         let petsNavVC = UINavigationController()
@@ -69,29 +63,43 @@ class AppCoordinator: ParentCoordinator {
         let authNavVC = UINavigationController()
         let authCoordinator = AuthCoordinator(navigationController: authNavVC)
         addChild(authCoordinator)
+        window.rootViewController = authNavVC
+        window.makeKeyAndVisible()
+        authCoordinator.start()
+    }
+}
+
+//MARK: - parent coordinator methods
+extension AppCoordinator {
+    func addChild(_ coordinator: Coordinator) {
+        childCoordinators.append(coordinator)
+    }
+    
+    func removeChild(_ coordinator: Coordinator) {
+        childCoordinators.removeAll { $0 === coordinator }
     }
 }
 
 //MARK: - private methods
 private extension AppCoordinator {
-    func configureAppearance() {
-        let navBarAppearance = UINavigationBarAppearance()
-        navBarAppearance.configureWithOpaqueBackground()
-        navBarAppearance.backgroundColor = .white
-        navBarAppearance.titleTextAttributes = [.foregroundColor: UIColor.black]
-        
-        UINavigationBar.appearance().standardAppearance = navBarAppearance
-        UINavigationBar.appearance().scrollEdgeAppearance = navBarAppearance
-        UINavigationBar.appearance().compactAppearance = navBarAppearance
-        UINavigationBar.appearance().tintColor = .systemBlue
-        
-        let tabBarAppearance = UITabBarAppearance()
-        tabBarAppearance.configureWithOpaqueBackground()
-        tabBarAppearance.backgroundColor = .white
-        
-        UITabBar.appearance().standardAppearance = tabBarAppearance
-        UITabBar.appearance().scrollEdgeAppearance = tabBarAppearance
-    }
+//    func configureAppearance() {
+//        let navBarAppearance = UINavigationBarAppearance()
+//        navBarAppearance.configureWithOpaqueBackground()
+//        navBarAppearance.backgroundColor = .white
+//        navBarAppearance.titleTextAttributes = [.foregroundColor: UIColor.black]
+//        
+//        UINavigationBar.appearance().standardAppearance = navBarAppearance
+//        UINavigationBar.appearance().scrollEdgeAppearance = navBarAppearance
+//        UINavigationBar.appearance().compactAppearance = navBarAppearance
+//        UINavigationBar.appearance().tintColor = .systemBlue
+//        
+//        let tabBarAppearance = UITabBarAppearance()
+//        tabBarAppearance.configureWithOpaqueBackground()
+//        tabBarAppearance.backgroundColor = .white
+//        
+//        UITabBar.appearance().standardAppearance = tabBarAppearance
+//        UITabBar.appearance().scrollEdgeAppearance = tabBarAppearance
+//    }
     
     func setupTabBarItems(for tabBarController: UITabBarController) {
         guard let items = tabBarController.tabBar.items else { return }

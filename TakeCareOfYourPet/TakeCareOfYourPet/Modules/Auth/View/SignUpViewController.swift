@@ -25,10 +25,23 @@ class SignUpViewController: UIViewController {
         return button
     }()
     
+    //MARK: - properties
+    private let presenter: SignUpPresenter
+    
     //MARK: - override
     override func viewDidLoad() {
         super.viewDidLoad()
         configureUI()
+    }
+    
+    //MARK: - init
+    init(presenter: SignUpPresenter) {
+        self.presenter = presenter
+        super.init(nibName: nil, bundle: nil)
+    }
+    
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
     }
 }
 

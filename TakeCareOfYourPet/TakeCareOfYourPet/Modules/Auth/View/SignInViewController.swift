@@ -24,10 +24,23 @@ class SignInViewController: UIViewController {
         return button
     }()
     
+    //MARK: - properties
+    private let presenter: SignInPresenter
+    
     //MARK: - override
     override func viewDidLoad() {
         super.viewDidLoad()
         configureUI()
+    }
+    
+    //MARK: - init
+    init(presenter: SignInPresenter) {
+        self.presenter = presenter
+        super.init(nibName: nil, bundle: nil)
+    }
+    
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
     }
 }
 

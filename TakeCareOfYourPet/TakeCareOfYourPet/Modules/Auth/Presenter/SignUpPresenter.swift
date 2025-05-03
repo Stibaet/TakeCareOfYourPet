@@ -6,5 +6,9 @@
 //
 
 class SignUpPresenter {
+    private weak var navigationDelegate: SignUpNavigationDelegate?
     
+    init(navigationDelegate: SignUpNavigationDelegate) {
+        self.navigationDelegate = navigationDelegate
+    }
 }

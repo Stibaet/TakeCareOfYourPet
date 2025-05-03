@@ -18,6 +18,7 @@ class WelcomeViewController: UIViewController {
         button.setTitle("Sign in", for: .normal)
         button.setTitleColor(.white, for: .normal)
         button.layer.cornerRadius = 15
+        button.addTarget(self, action: #selector(signInButtonPressed), for: .touchUpInside)
         
         return button
     }()
@@ -29,13 +30,26 @@ class WelcomeViewController: UIViewController {
         button.setTitle("Sign up", for: .normal)
         button.setTitleColor(.white, for: .normal)
         button.layer.cornerRadius = 15
+        button.addTarget(self, action: #selector(signUpButtonPressed), for: .touchUpInside)
         
         return button
     }()
     
+    //MARK: - properties
+    private let presenter: WelcomePresenter
+    
     //MARK: - override
     override func viewDidLoad() {
         configureUI()
+    }
+    
+    init(presenter: WelcomePresenter) {
+        self.presenter = presenter
+        super.init(nibName: nil, bundle: nil)
+    }
+    
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
     }
 }
 
@@ -60,5 +74,15 @@ private extension WelcomeViewController {
             signInButton.heightAnchor.constraint(equalToConstant: 35),
             signUpButton.heightAnchor.constraint(equalToConstant: 35)
         ])
+    }
+    
+    @objc func signUpButtonPressed() {
+        print("[welcomeVC] signUpButton")
+        presenter.didTapSignUpButton()
+    }
+    
+    @objc func signInButtonPressed() {
+        print("[welcomeVC] signInButton")
+        presenter.didTapSignInButton()
     }
 }
