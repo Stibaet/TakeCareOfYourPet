@@ -14,10 +14,10 @@ class SignUpViewController: UIViewController {
     private lazy var passwordTF = UITextField(placeholder: "Password", delegate: self, returnKeyType: .done, keyboardType: .default)
     private lazy var confirmPasswordTF = UITextField(placeholder: "Password", delegate: self, returnKeyType: .done, keyboardType: .default)
     
-    private lazy var signInButton: UIButton = {
+    private lazy var signUpButton: UIButton = {
         let button = UIButton(type: .system)
         button.translatesAutoresizingMaskIntoConstraints = false
-        button.backgroundColor = .systemBlue
+        button.backgroundColor = .systemGreen
         button.setTitle("Sign up", for: .normal)
         button.setTitleColor(.white, for: .normal)
         button.layer.cornerRadius = 15
@@ -52,18 +52,18 @@ private extension SignUpViewController {
         
         let tfStack = UIStackView(axis: .vertical, distribution: .fillEqually, spacing: 8, arrangedSubviews: [emailTF, passwordTF, confirmPasswordTF])
         view.addSubview(tfStack)
-        view.addSubview(signInButton)
+        view.addSubview(signUpButton)
         
         NSLayoutConstraint.activate([
             tfStack.centerXAnchor.constraint(equalTo: view.centerXAnchor),
             tfStack.centerYAnchor.constraint(equalTo: view.centerYAnchor),
             tfStack.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 60),
             
-            signInButton.centerXAnchor.constraint(equalTo: view.centerXAnchor),
-            signInButton.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 130),
-            signInButton.centerYAnchor.constraint(equalTo: view.centerYAnchor, constant: 200),
+            signUpButton.centerXAnchor.constraint(equalTo: view.centerXAnchor),
+            signUpButton.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 130),
+            signUpButton.centerYAnchor.constraint(equalTo: view.centerYAnchor, constant: 200),
             
-            signInButton.heightAnchor.constraint(equalToConstant: 35),
+            signUpButton.heightAnchor.constraint(equalToConstant: 35),
         ])
     }
 }
