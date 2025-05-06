@@ -26,10 +26,13 @@ class AppCoordinator: ParentCoordinator {
     //MARK: - properties
     var childCoordinators: [Coordinator] = []
     private let window: UIWindow
+    private let authService: AuthServiceProtocol
+    private let databaseService: DatabaseServiceProtocol
     
     //MARK: - init
     init(window: UIWindow) {
         self.window = window
+        window.overrideUserInterfaceStyle = .light
     }
     
     //MARK: - public methods
@@ -55,13 +58,12 @@ class AppCoordinator: ParentCoordinator {
         
         setupTabBarItems(for: tabBarController)
         window.rootViewController = tabBarController
-        window.overrideUserInterfaceStyle = .light
         window.makeKeyAndVisible()
     }
     
     func showAuthFlow() {
         let authNavVC = UINavigationController()
-        let authCoordinator = AuthCoordinator(navigationController: authNavVC)
+        let authCoordinator = AuthCoordinator(navigationController: authNavVC, authService: authService)
         addChild(authCoordinator)
         window.rootViewController = authNavVC
         window.makeKeyAndVisible()

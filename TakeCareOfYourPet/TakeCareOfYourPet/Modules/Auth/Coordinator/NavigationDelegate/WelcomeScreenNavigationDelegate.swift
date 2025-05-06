@@ -9,11 +9,3 @@ protocol WelcomeNavigationDelegate: AnyObject {
     func showSignUpScreen()
     func showSignInScreen()
 }
-
-protocol SignUpNavigationDelegate: AnyObject {
-    func didSignUpSuccesfully()
-}
-
-protocol SignInNavigationDelegate: AnyObject {
-    func didSignInSuccesfully()
-}

@@ -9,12 +9,10 @@ class WelcomePresenter {
     private weak var navigationDelegate: WelcomeNavigationDelegate?
     
     init(navigationDelegate: WelcomeNavigationDelegate) {
-        print("[WelcomePresenter] init with delegate: \(navigationDelegate)")
         self.navigationDelegate = navigationDelegate
     }
     
     func didTapSignUpButton() {
-        print("delegate \(navigationDelegate)")
         navigationDelegate?.showSignUpScreen()
     }
     

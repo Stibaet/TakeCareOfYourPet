@@ -21,6 +21,7 @@ class SignUpViewController: UIViewController {
         button.setTitle("Sign up", for: .normal)
         button.setTitleColor(.white, for: .normal)
         button.layer.cornerRadius = 15
+        button.addTarget(self, action: #selector(signUpButtonTapped), for: .touchUpInside)
         
         return button
     }()
@@ -66,11 +67,35 @@ private extension SignUpViewController {
             signUpButton.heightAnchor.constraint(equalToConstant: 35),
         ])
     }
+    
+    @objc func signUpButtonTapped() {
+        let email = emailTF.text ?? ""
+        let password = passwordTF.text ?? ""
+        let confirmPassword = confirmPasswordTF.text ?? ""
+        
+        presenter.didTapSignUpButton(email: email, password: password, confirmPassword: confirmPassword)
+        
+        print("email \(email)")
+        print("password \(password)")
+        print("confirmedPass = \(confirmPassword)")
+    }
 }
-
 
 
 //MARK: - UITextFieldDelegate
 extension SignUpViewController: UITextFieldDelegate {
+    func textFieldShouldReturn(_ textField: UITextField) -> Bool {
+        switch textField {
+        case emailTF: passwordTF.becomeFirstResponder()
+        case passwordTF: confirmPasswordTF.becomeFirstResponder()
+        case confirmPasswordTF: view.endEditing(true)
+        default: break
+        }
+        return true
+    }
+}
+
+//MARK: - SighUpViewProtocol
+extension SignUpViewController: SignUpViewProtocol {
     
 }
