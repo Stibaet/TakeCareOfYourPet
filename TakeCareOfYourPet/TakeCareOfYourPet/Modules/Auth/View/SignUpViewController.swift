@@ -14,6 +14,8 @@ class SignUpViewController: UIViewController {
     private lazy var passwordTF = UITextField(placeholder: "Password", delegate: self, returnKeyType: .done, keyboardType: .default)
     private lazy var confirmPasswordTF = UITextField(placeholder: "Password", delegate: self, returnKeyType: .done, keyboardType: .default)
     
+    private lazy var warningLabel = UILabel(lines: 0, font: .systemFont(ofSize: 14, weight: .regular), textColor: .systemRed, alignment: .left, isHidden: true)
+    
     private lazy var signUpButton: UIButton = {
         let button = UIButton(type: .system)
         button.translatesAutoresizingMaskIntoConstraints = false
@@ -51,7 +53,7 @@ private extension SignUpViewController {
     func configureUI() {
         view.backgroundColor = .white
         
-        let tfStack = UIStackView(axis: .vertical, distribution: .fillEqually, spacing: 8, arrangedSubviews: [emailTF, passwordTF, confirmPasswordTF])
+        let tfStack = UIStackView(axis: .vertical, distribution: .fillEqually, spacing: 8, arrangedSubviews: [emailTF, passwordTF, confirmPasswordTF, warningLabel])
         view.addSubview(tfStack)
         view.addSubview(signUpButton)
         
@@ -71,13 +73,13 @@ private extension SignUpViewController {
     @objc func signUpButtonTapped() {
         let email = emailTF.text ?? ""
         let password = passwordTF.text ?? ""
-        let confirmPassword = confirmPasswordTF.text ?? ""
+        let passwordToConfirm = confirmPasswordTF.text ?? ""
         
-        presenter.didTapSignUpButton(email: email, password: password, confirmPassword: confirmPassword)
+        presenter.didTapSignUpButton(email: email, password: password, passwordToConfirm: passwordToConfirm)
         
         print("email \(email)")
         print("password \(password)")
-        print("confirmedPass = \(confirmPassword)")
+        print("confirmedPass = \(passwordToConfirm)")
     }
 }
 
@@ -97,5 +99,17 @@ extension SignUpViewController: UITextFieldDelegate {
 
 //MARK: - SighUpViewProtocol
 extension SignUpViewController: SignUpViewProtocol {
+    var isLabelHidden: Bool {
+        get {
+            warningLabel.isHidden
+        }
+        set {
+            warningLabel.isHidden = newValue
+        }
+    }
     
+    func showWarning(warning: String) {
+        warningLabel.isHidden = false
+        warningLabel.text = warning
+    }
 }

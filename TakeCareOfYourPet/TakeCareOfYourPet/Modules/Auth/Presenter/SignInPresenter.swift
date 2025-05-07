@@ -6,11 +6,10 @@
 //
 
 class SignInPresenter {
-    private weak var navigationDelegate: SignInNavigationDelegate?
+    weak var navigationDelegate: SignInNavigationDelegate?
     private let authService: AuthServiceProtocol
     
-    init(navigationDelegate: SignInNavigationDelegate, authService: AuthServiceProtocol) {
-        self.navigationDelegate = navigationDelegate
+    init(authService: AuthServiceProtocol) {
         self.authService = authService
     }
 }
