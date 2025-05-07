@@ -8,7 +8,7 @@
 import Foundation
 
 struct TaskModel {
-    var id: UUID
+    var id: String
     var title: String
     var definition: String?
     var isCompleted: Bool

@@ -17,6 +17,6 @@ class SignUpPresenter {
     }
     
     func didTapSignUpButton(email: String, password: String, confirmPassword: String) {
-        authService.signUp(email: email, password: password, completion: <#T##(Result<UserModel, any Error>) -> Void#>)
+        
     }
 }

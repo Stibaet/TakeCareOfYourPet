@@ -26,12 +26,15 @@ class AppCoordinator: ParentCoordinator {
     //MARK: - properties
     var childCoordinators: [Coordinator] = []
     private let window: UIWindow
-    private let authService: AuthServiceProtocol
-    private let databaseService: DatabaseServiceProtocol
+    private let dependency: DependencyAssembly
+    
+    var databaseService: DatabaseServiceProtocol { dependency.databaseService }
+    var authService: AuthServiceProtocol { dependency.authService }
     
     //MARK: - init
-    init(window: UIWindow) {
+    init(window: UIWindow, dependency: DependencyAssembly) {
         self.window = window
+        self.dependency = dependency
         window.overrideUserInterfaceStyle = .light
     }
     
@@ -84,25 +87,6 @@ extension AppCoordinator {
 
 //MARK: - private methods
 private extension AppCoordinator {
-//    func configureAppearance() {
-//        let navBarAppearance = UINavigationBarAppearance()
-//        navBarAppearance.configureWithOpaqueBackground()
-//        navBarAppearance.backgroundColor = .white
-//        navBarAppearance.titleTextAttributes = [.foregroundColor: UIColor.black]
-//        
-//        UINavigationBar.appearance().standardAppearance = navBarAppearance
-//        UINavigationBar.appearance().scrollEdgeAppearance = navBarAppearance
-//        UINavigationBar.appearance().compactAppearance = navBarAppearance
-//        UINavigationBar.appearance().tintColor = .systemBlue
-//        
-//        let tabBarAppearance = UITabBarAppearance()
-//        tabBarAppearance.configureWithOpaqueBackground()
-//        tabBarAppearance.backgroundColor = .white
-//        
-//        UITabBar.appearance().standardAppearance = tabBarAppearance
-//        UITabBar.appearance().scrollEdgeAppearance = tabBarAppearance
-//    }
-    
     func setupTabBarItems(for tabBarController: UITabBarController) {
         guard let items = tabBarController.tabBar.items else { return }
         

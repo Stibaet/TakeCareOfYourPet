@@ -12,10 +12,10 @@ class AuthCoordinator: NavigationCoordinator {
     var onAuthSuccess: (() -> Void)?
     
     //MARK: - properties
-    private let authService: AuthService
+    private let authService: AuthServiceProtocol
     
     //MARK: - init
-    init(navigationController: UINavigationController, authService: AuthService, onAuthSuccess: (() -> Void)? = nil) {
+    init(navigationController: UINavigationController, authService: AuthServiceProtocol, onAuthSuccess: (() -> Void)? = nil) {
         self.navigationController = navigationController
         self.onAuthSuccess = onAuthSuccess
         self.authService = authService

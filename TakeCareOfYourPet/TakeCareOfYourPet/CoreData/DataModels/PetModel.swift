@@ -8,7 +8,7 @@
 import Foundation
 
 struct PetModel {
-    var id: UUID
+    var id: String
     var name: String
     var age: Int
     var breed: String

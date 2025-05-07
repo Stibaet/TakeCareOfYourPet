@@ -5,12 +5,15 @@
 //  Created by Матвей Анкудимов on 06.05.2025.
 //
 
-import CoreData
-
-class DatabaseService {
-    private let context: NSManagedObjectContext
+class DatabaseService: DatabaseServiceProtocol {
+    private let coreDataService: CoreDataServiceProtocol
     
-    init(context: NSManagedObjectContext) {
-        self.context = context
+    init(coreDataService: CoreDataServiceProtocol) {
+        self.coreDataService = coreDataService
+    }
+    
+    
+    func saveUser(user: UserModel, completion: @escaping (Result<Void, any Error>) -> Void) {
+        print("")
     }
 }
