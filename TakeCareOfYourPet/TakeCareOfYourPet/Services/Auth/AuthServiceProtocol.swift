@@ -6,6 +6,6 @@
 //
 
 protocol AuthServiceProtocol {
-    func signUp(email: String, password: String, completion: @escaping (Result<UserModel, Error>) -> Void)
+    func signUp(email: String, password: String, completion: @escaping (Result<UserModel, CreateUserError>) -> Void)
     func signIn(email: String, password: String, completion: @escaping (Result<UserModel, Error>) -> Void)
 }

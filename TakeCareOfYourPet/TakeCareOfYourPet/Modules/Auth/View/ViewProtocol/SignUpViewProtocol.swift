@@ -7,5 +7,6 @@
 
 protocol SignUpViewProtocol: AnyObject {
     func showWarning(warning: String)
+    func updateSignUpState(state: CreateUserResult)
     var isLabelHidden: Bool { get set }
 }

@@ -66,7 +66,7 @@ class AppCoordinator: ParentCoordinator {
     
     func showAuthFlow() {
         let authNavVC = UINavigationController()
-        let authCoordinator = AuthCoordinator(navigationController: authNavVC, authService: authService)
+        let authCoordinator = AuthCoordinator(navigationController: authNavVC, authService: authService, databaseService: databaseService)
         addChild(authCoordinator)
         window.rootViewController = authNavVC
         window.makeKeyAndVisible()

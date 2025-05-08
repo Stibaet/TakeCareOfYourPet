@@ -81,6 +81,43 @@ private extension SignUpViewController {
         print("password \(password)")
         print("confirmedPass = \(passwordToConfirm)")
     }
+    
+    func showLoadingAlert(title: String, message: String) {
+        let alert = UIAlertController(title: title, message: message, preferredStyle: .alert)
+        let spinner = UIActivityIndicatorView(style: .medium)
+        spinner.translatesAutoresizingMaskIntoConstraints = false
+        spinner.startAnimating()
+        
+        alert.view.addSubview(spinner)
+        NSLayoutConstraint.activate([
+            spinner.centerXAnchor.constraint(equalTo: alert.view.centerXAnchor),
+            spinner.bottomAnchor.constraint(equalTo: alert.view.bottomAnchor, constant: -10)
+        ])
+        present(alert, animated: true)
+    }
+    
+    func showSuccessAlert(title: String, message: String) {
+        let alert = UIAlertController(title: title, message: message, preferredStyle: .alert)
+        let action = UIAlertAction(title: "Вперёд!", style: .default)
+        alert.addAction(action)
+        present(alert, animated: true)
+    }
+    
+    func showErrorAlert(title: String, message: String) {
+        let alert = UIAlertController(title: title, message: message, preferredStyle: .alert)
+        let action = UIAlertAction(title: "Понятно", style: .default)
+        alert.addAction(action)
+        present(alert, animated: true)
+    }
+    
+    func dismissPresentedAlertIfNeeded(completion: @escaping () -> Void) {
+        if let presented = presentedViewController as? UIAlertController {
+            presented.dismiss(animated: false, completion: completion)
+        } else {
+            completion()
+        }
+    }
+
 }
 
 
@@ -99,6 +136,22 @@ extension SignUpViewController: UITextFieldDelegate {
 
 //MARK: - SighUpViewProtocol
 extension SignUpViewController: SignUpViewProtocol {
+    func updateSignUpState(state: CreateUserResult) {
+        dismissPresentedAlertIfNeeded { [weak self] in
+            guard let self else { return }
+
+            switch state {
+            case .inProgress:
+                showLoadingAlert(title: state.title, message: state.message)
+            case .success:
+                showSuccessAlert(title: state.title, message: state.message)
+            case .failure:
+                showErrorAlert(title: state.title, message: state.message)
+            }
+        }
+    }
+
+    
     var isLabelHidden: Bool {
         get {
             warningLabel.isHidden
