@@ -20,6 +20,16 @@ extension User {
     @NSManaged public var id: String
     @NSManaged public var email: String
     @NSManaged public var pets: NSOrderedSet?
+    
+    
+    convenience init(context: NSManagedObjectContext, model: UserModel) {
+        self.init(context: context)
+        self.id = model.id
+        self.name = model.name
+        self.email = model.email
+        self.pets = NSOrderedSet(array: model.pets)
+    }
+    
 
 }
 

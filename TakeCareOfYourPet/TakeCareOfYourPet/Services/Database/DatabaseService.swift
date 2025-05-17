@@ -13,7 +13,7 @@ class DatabaseService: DatabaseServiceProtocol {
     }
     
     
-    func saveUser(user: UserModel, completion: @escaping (Result<Void, any Error>) -> Void) {
-        print("")
+    func saveUser(user: UserModel, completion: @escaping (() -> Void)) {
+        coreDataService.saveUser(user: user, completion: completion)
     }
 }

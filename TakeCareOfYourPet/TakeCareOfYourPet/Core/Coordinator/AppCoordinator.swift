@@ -98,7 +98,6 @@ private extension AppCoordinator {
         
         items[2].title = "Настройки"
         items[2].image = UIImage(systemName: "gear")
-        
     }
     
 }

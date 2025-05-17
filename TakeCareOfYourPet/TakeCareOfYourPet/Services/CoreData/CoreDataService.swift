@@ -16,4 +16,19 @@ final class CoreDataService: CoreDataServiceProtocol {
         self.viewContext = viewContext
         self.backgroundContext = backgroundContext
     }
+    
+    func saveUser(user: UserModel, completion: @escaping () -> Void) {
+        backgroundContext.perform { [weak self] in
+            guard let self = self else { return }
+            let userEntity = User(context: backgroundContext, model: user)
+            
+            do {
+                try backgroundContext.save()
+                printLog("[CoreDataService] user saved \(userEntity)")
+            }
+            catch {
+                printError("[CoreDataService] saving user failure")
+            }
+        }
+    }
 }

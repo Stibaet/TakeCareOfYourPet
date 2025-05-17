@@ -6,5 +6,5 @@
 //
 
 protocol DatabaseServiceProtocol {
-    func saveUser(user: UserModel, completion: @escaping (Result<Void, Error>) -> Void)
+    func saveUser(user: UserModel, completion: @escaping (() -> Void))
 }

@@ -46,19 +46,19 @@ final class SignUpPresenter {
     //MARK: - public methods
     func didTapSignUpButton(email: String, password: String, passwordToConfirm: String) {
         guard !email.isEmpty else {
-            print("[SignUpPresenter] email is empty")
+            printError("[SignUpPresenter] email is empty")
             view?.showWarning(warning: "Email не может быть пустым")
             return
         }
         
         guard password.count >= 6 else {
-            print("[SignUpPresenter] password.count <= 6")
+            printError("[SignUpPresenter] password.count <= 6")
             view?.showWarning(warning: "Пароль должен состоять из 6 или более символов")
             return
         }
         
         guard password == passwordToConfirm else {
-            print("[SignUpPresenter] password != passwordToConfirm")
+            printError("[SignUpPresenter] password != passwordToConfirm")
             view?.showWarning(warning: "Пароли должны совпадать")
             return
         }
@@ -69,10 +69,11 @@ final class SignUpPresenter {
         authService.signUp(email: email, password: password) { [weak self] result in
             guard let self = self else { return }
             switch result {
-            case .success(_):
-                print("[SignUpPresenter] вызываем DBService")
-                DispatchQueue.main.async {
-                    self.view?.updateSignUpState(state: .success)
+            case .success(let user):
+                databaseService.saveUser(user: user) { [weak self] in
+                    DispatchQueue.main.async {
+                        self?.view?.updateSignUpState(state: .success)
+                    }
                 }
             case .failure(let error):
                 DispatchQueue.main.async {

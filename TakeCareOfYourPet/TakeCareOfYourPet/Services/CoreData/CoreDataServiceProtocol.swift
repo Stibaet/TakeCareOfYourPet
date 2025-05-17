@@ -6,5 +6,5 @@
 //
 
 protocol CoreDataServiceProtocol {
-
+    func saveUser(user: UserModel, completion: @escaping (() -> Void))
 }
