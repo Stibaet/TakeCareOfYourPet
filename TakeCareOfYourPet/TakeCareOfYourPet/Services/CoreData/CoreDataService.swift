@@ -25,6 +25,9 @@ final class CoreDataService: CoreDataServiceProtocol {
             do {
                 try backgroundContext.save()
                 printLog("[CoreDataService] user saved \(userEntity)")
+                DispatchQueue.main.async {
+                    completion()
+                }
             }
             catch {
                 printError("[CoreDataService] saving user failure")

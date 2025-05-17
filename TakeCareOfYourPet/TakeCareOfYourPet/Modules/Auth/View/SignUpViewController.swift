@@ -96,9 +96,11 @@ private extension SignUpViewController {
         present(alert, animated: true)
     }
     
-    func showSuccessAlert(title: String, message: String) {
+    func showSuccessAlert(title: String, message: String, onDismiss: (() -> Void)?) {
         let alert = UIAlertController(title: title, message: message, preferredStyle: .alert)
-        let action = UIAlertAction(title: "Вперёд!", style: .default)
+        let action = UIAlertAction(title: "Вперёд!", style: .default) { _ in
+            onDismiss?()
+        }
         alert.addAction(action)
         present(alert, animated: true)
     }
@@ -136,7 +138,7 @@ extension SignUpViewController: UITextFieldDelegate {
 
 //MARK: - SighUpViewProtocol
 extension SignUpViewController: SignUpViewProtocol {
-    func updateSignUpState(state: CreateUserResult) {
+    func updateSignUpState(state: CreateUserResult, onDismiss: (() -> Void)?) {
         dismissPresentedAlertIfNeeded { [weak self] in
             guard let self else { return }
 
@@ -144,13 +146,12 @@ extension SignUpViewController: SignUpViewProtocol {
             case .inProgress:
                 showLoadingAlert(title: state.title, message: state.message)
             case .success:
-                showSuccessAlert(title: state.title, message: state.message)
+                showSuccessAlert(title: state.title, message: state.message, onDismiss: onDismiss)
             case .failure:
                 showErrorAlert(title: state.title, message: state.message)
             }
         }
     }
-
     
     var isLabelHidden: Bool {
         get {

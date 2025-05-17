@@ -17,7 +17,7 @@ class AuthCoordinator: NavigationCoordinator {
     
     //MARK: - init
     init(navigationController: UINavigationController, authService: AuthServiceProtocol,
-         databaseService: DatabaseServiceProtocol, onAuthSuccess: (() -> Void)? = nil) {
+         databaseService: DatabaseServiceProtocol, onAuthSuccess: (() -> Void)?) {
         self.navigationController = navigationController
         self.onAuthSuccess = onAuthSuccess
         self.authService = authService
@@ -25,7 +25,7 @@ class AuthCoordinator: NavigationCoordinator {
     }
     
     //MARK: - public methods
-    func start() {
+    func showMainFlow() {
         print("start auth flow")
         let welcomePresenter = WelcomePresenter(navigationDelegate: self)
         let welcomeVC = WelcomeViewController(presenter: welcomePresenter)
@@ -55,6 +55,7 @@ extension AuthCoordinator: WelcomeNavigationDelegate {
 extension AuthCoordinator: SignUpNavigationDelegate {
     func didSignUpSuccesfully() {
         print("[AuthCoordinator] didSignUp")
+        onAuthSuccess?()
     }
 }
 

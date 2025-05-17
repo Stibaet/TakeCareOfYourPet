@@ -64,7 +64,7 @@ final class SignUpPresenter {
         }
         
         view?.isLabelHidden = true
-        view?.updateSignUpState(state: .inProgress)
+        view?.updateSignUpState(state: .inProgress, onDismiss: nil)
         
         authService.signUp(email: email, password: password) { [weak self] result in
             guard let self = self else { return }
@@ -72,12 +72,14 @@ final class SignUpPresenter {
             case .success(let user):
                 databaseService.saveUser(user: user) { [weak self] in
                     DispatchQueue.main.async {
-                        self?.view?.updateSignUpState(state: .success)
+                        self?.view?.updateSignUpState(state: .success, onDismiss: {
+                            self?.navigationDelegate?.didSignUpSuccesfully()
+                        })
                     }
                 }
             case .failure(let error):
                 DispatchQueue.main.async {
-                    self.view?.updateSignUpState(state: .failure(error: error))
+                    self.view?.updateSignUpState(state: .failure(error: error), onDismiss: nil)
                 }
             }
         }

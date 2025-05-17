@@ -15,7 +15,7 @@ class SettingsCoordinator: NavigationCoordinator {
         self.navigationController = navigationController
     }
     
-    func start() {
+    func showMainFlow() {
         let settingsVC = SettingsViewController()
         navigationController.viewControllers = [settingsVC]
     }
