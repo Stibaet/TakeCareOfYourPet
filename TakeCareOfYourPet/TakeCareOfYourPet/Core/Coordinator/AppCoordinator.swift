@@ -8,7 +8,7 @@
 import UIKit
 
 protocol Coordinator: AnyObject {
-    func showMainFlow()
+    func start()
 }
 
 protocol NavigationCoordinator: Coordinator {
@@ -39,7 +39,7 @@ class AppCoordinator: ParentCoordinator {
     }
     
     //MARK: - public methods
-    func showMainFlow() {
+    func start() {
         let tabBarController = UITabBarController()
         
         let petsNavVC = UINavigationController()
@@ -51,7 +51,7 @@ class AppCoordinator: ParentCoordinator {
         let settingsCoordinator = SettingsCoordinator(navigationController: settingsNavVC)
         
         childCoordinators = [petsCoordinator, tasksCoordinator, settingsCoordinator]
-        childCoordinators.forEach { $0.showMainFlow() }
+        childCoordinators.forEach { $0.start() }
         
         tabBarController.viewControllers = [
             petsCoordinator.navigationController,
@@ -66,14 +66,14 @@ class AppCoordinator: ParentCoordinator {
     
     func showAuthFlow() {
         let authNavVC = UINavigationController()
-        let authCoordinator = AuthCoordinator(navigationController: authNavVC, authService: authService, databaseService: databaseService,
-                                              onAuthSuccess: { [weak self] in
-            self?.showMainFlow()
+        let authCoordinator = AuthCoordinator(navigationController: authNavVC, authService: authService,
+                                              databaseService: databaseService, onAuthSuccess: { [weak self] in
+            self?.start()
         })
         addChild(authCoordinator)
         window.rootViewController = authNavVC
         window.makeKeyAndVisible()
-        authCoordinator.showMainFlow()
+        authCoordinator.start()
     }
 }
 

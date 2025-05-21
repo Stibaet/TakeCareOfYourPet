@@ -25,7 +25,7 @@ class AuthCoordinator: NavigationCoordinator {
     }
     
     //MARK: - public methods
-    func showMainFlow() {
+    func start() {
         print("start auth flow")
         let welcomePresenter = WelcomePresenter(navigationDelegate: self)
         let welcomeVC = WelcomeViewController(presenter: welcomePresenter)

@@ -24,7 +24,7 @@ class PetsCoordinator: ParentCoordinator {
         self.navigationController = navigationController
     }
     
-    func showMainFlow() {
+    func start() {
         let petsVC = PetsViewController()
         navigationController.viewControllers = [petsVC]
     }

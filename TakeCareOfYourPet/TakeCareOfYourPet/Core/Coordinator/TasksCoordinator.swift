@@ -24,7 +24,7 @@ class TasksCoordinator: ParentCoordinator {
         self.navigationController = navigationController
     }
     
-    func showMainFlow() {
+    func start() {
         let tasksVC = TasksViewController()
         navigationController.viewControllers = [tasksVC]
     }
