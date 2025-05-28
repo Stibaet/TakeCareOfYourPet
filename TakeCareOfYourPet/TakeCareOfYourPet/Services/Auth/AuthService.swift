@@ -36,6 +36,7 @@ class AuthService: AuthServiceProtocol {
                 let signInError = SignInUserError(error: AuthErrorCode(rawValue: error.code) ?? .internalError)
                 completion(.failure(signInError))
                 printError("[AuthService] error: \(signInError.localizedDescription)")
+                return
             }
             
             guard let firUser = result?.user else {

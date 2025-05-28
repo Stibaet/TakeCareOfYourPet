@@ -20,6 +20,7 @@ class SignInViewController: UIViewController {
         button.setTitle("Sign in", for: .normal)
         button.setTitleColor(.white, for: .normal)
         button.layer.cornerRadius = 15
+        button.addTarget(self, action: #selector(signInButtonTapped), for: .touchUpInside)
         
         return button
     }()
@@ -104,6 +105,14 @@ private extension SignInViewController {
         alert.addAction(action)
         present(alert, animated: true)
     }
+    
+    func dismissPresentedAlertIfNeeded(completion: @escaping () -> Void) {
+        if let presented = presentedViewController as? UIAlertController {
+            presented.dismiss(animated: false, completion: completion)
+        } else {
+            completion()
+        }
+    }
 }
 
 
@@ -131,13 +140,17 @@ extension SignInViewController: SignInViewProtocol {
     }
     
     func updateSignInState(_ state: SignInUserResult, onDismiss: (() -> Void)?) {
-        switch state {
-        case .inProgress:
-            showLoadingAlert(title: state.title, message: state.message)
-        case .success:
-            showSuccessAlert(title: state.title, message: state.message, onDismiss: <#T##(() -> Void)?##(() -> Void)?##() -> Void#>)
-        case .failure(let error):
-            showErrorAlert(title: state.title, message: state.message)
+        dismissPresentedAlertIfNeeded { [weak self] in
+            guard let self = self else { return }
+            
+            switch state {
+            case .inProgress:
+                showLoadingAlert(title: state.title ?? "", message: state.message)
+            case .success:
+                showSuccessAlert(title: state.title ?? "", message: state.message, onDismiss: onDismiss)
+            case .failure:
+                showErrorAlert(title: state.title ?? "", message: state.message)
+            }
         }
     }
     
