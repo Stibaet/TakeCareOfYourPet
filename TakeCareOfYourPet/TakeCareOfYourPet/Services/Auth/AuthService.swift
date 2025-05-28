@@ -7,53 +7,20 @@
 
 import FirebaseAuth
 
-enum CreateUserError: Error {
-    case emailAlreadyInUse
-    case networkError
-    case invalidEmail
-    case unknownError
-    
-    init(error: AuthErrorCode) {
-        switch error {
-        case .emailAlreadyInUse: self = .emailAlreadyInUse
-        case .networkError: self = .networkError
-        case .invalidEmail: self = .invalidEmail
-        default: self = .unknownError
-        }
-    }
-    
-    var title: String {
-        switch self {
-        case .emailAlreadyInUse: "Электронный адрес используется"
-        case .networkError: "Ошибка соединения"
-        case .invalidEmail: "Введённый электронный адрес некорректен"
-        case .unknownError: "Что-то пошло не так"
-        }
-    }
-    
-    var description: String {
-        switch self {
-        case .emailAlreadyInUse: "Адрес электронной почты уже используется другой учётной записью. Проверьте правильность введённого e-mail"
-        case .networkError: "Соединение прервано. Проверьте настройки соединения с интернетом"
-        case .invalidEmail: "Адрес электронной почты имеет неверный формат. Проверьте правильность введённого e-mail"
-        case .unknownError: "Пожалуйста, попробуйте позднее"
-        }
-    }
-}
-
 class AuthService: AuthServiceProtocol {
-    func signUp(email: String, password: String, completion: @escaping (Result<UserModel, CreateUserError>) -> Void) {
+    func signUp(email: String, password: String, completion: @escaping (Result<UserModel, SignUpUserError>) -> Void) {
         Auth.auth().createUser(withEmail: email, password: password) { result, error in
             if let error = error as? NSError {
-                let signUpError = CreateUserError(error: AuthErrorCode(rawValue: error.code) ?? .internalError)
+                let signUpError = SignUpUserError(error: AuthErrorCode(rawValue: error.code) ?? .internalError)
                 completion(.failure(signUpError))
-                print("[AuthService] error: \(signUpError.localizedDescription)")
+                printError("[AuthService] error: \(signUpError.localizedDescription)")
                 return
             }
             
             guard let firUser = result?.user else {
-                completion(.failure(CreateUserError.unknownError))
-                print("[AuthService] user error")
+                completion(.failure(.unknownError))
+                printError("[AuthService] user error")
+                assertionFailure("Нет пользователя после успешной регистрации")
                 return
             }
             
@@ -63,7 +30,20 @@ class AuthService: AuthServiceProtocol {
         }
     }
     
-    func signIn(email: String, password: String, completion: @escaping (Result<UserModel, Error>) -> Void) {
-        print("signIn")
+    func signIn(email: String, password: String, completion: @escaping (Result<UserModel, SignInUserError>) -> Void) {
+        Auth.auth().signIn(withEmail: email, password: password) { result, error in
+            if let error = error as? NSError {
+                let signInError = SignInUserError(error: AuthErrorCode(rawValue: error.code) ?? .internalError)
+                completion(.failure(signInError))
+                printError("[AuthService] error: \(signInError.localizedDescription)")
+            }
+            
+            guard let firUser = result?.user else {
+                completion(.failure(.unknownError))
+                printError("[AuthService] user error")
+                assertionFailure("Нет пользователя после успешной авторизаци")
+                return
+            }
+        }
     }
 }

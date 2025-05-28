@@ -29,7 +29,7 @@ class SignUpViewController: UIViewController {
     }()
     
     //MARK: - properties
-    private let presenter: SignUpPresenter
+    private let presenter: SignUpPresenterProtocol
     
     //MARK: - override
     override func viewDidLoad() {
@@ -38,7 +38,7 @@ class SignUpViewController: UIViewController {
     }
     
     //MARK: - init
-    init(presenter: SignUpPresenter) {
+    init(presenter: SignUpPresenterProtocol) {
         self.presenter = presenter
         super.init(nibName: nil, bundle: nil)
     }
@@ -76,10 +76,6 @@ private extension SignUpViewController {
         let passwordToConfirm = confirmPasswordTF.text ?? ""
         
         presenter.didTapSignUpButton(email: email, password: password, passwordToConfirm: passwordToConfirm)
-        
-        print("email \(email)")
-        print("password \(password)")
-        print("confirmedPass = \(passwordToConfirm)")
     }
     
     func showLoadingAlert(title: String, message: String) {
@@ -119,7 +115,6 @@ private extension SignUpViewController {
             completion()
         }
     }
-
 }
 
 
@@ -127,10 +122,14 @@ private extension SignUpViewController {
 extension SignUpViewController: UITextFieldDelegate {
     func textFieldShouldReturn(_ textField: UITextField) -> Bool {
         switch textField {
-        case emailTF: passwordTF.becomeFirstResponder()
-        case passwordTF: confirmPasswordTF.becomeFirstResponder()
-        case confirmPasswordTF: view.endEditing(true)
-        default: break
+        case emailTF:
+            passwordTF.becomeFirstResponder()
+        case passwordTF:
+            confirmPasswordTF.becomeFirstResponder()
+        case confirmPasswordTF:
+            view.endEditing(true)
+        default:
+            break
         }
         return true
     }
@@ -138,7 +137,7 @@ extension SignUpViewController: UITextFieldDelegate {
 
 //MARK: - SighUpViewProtocol
 extension SignUpViewController: SignUpViewProtocol {
-    func updateSignUpState(state: CreateUserResult, onDismiss: (() -> Void)?) {
+    func updateSignUpState(_ state: SignUpUserResult, onDismiss: (() -> Void)?) {
         dismissPresentedAlertIfNeeded { [weak self] in
             guard let self else { return }
 
@@ -162,7 +161,7 @@ extension SignUpViewController: SignUpViewProtocol {
         }
     }
     
-    func showWarning(warning: String) {
+    func showWarning(_ warning: String) {
         warningLabel.isHidden = false
         warningLabel.text = warning
     }

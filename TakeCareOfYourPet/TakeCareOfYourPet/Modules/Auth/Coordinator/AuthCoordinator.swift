@@ -39,6 +39,7 @@ extension AuthCoordinator: WelcomeNavigationDelegate {
         let signInPresenter = SignInPresenter(authService: authService)
         signInPresenter.navigationDelegate = self
         let signInVC = SignInViewController(presenter: signInPresenter)
+        signInPresenter.view = signInVC
         navigationController.pushViewController(signInVC, animated: true)
     }
     

@@ -7,16 +7,16 @@
 
 import Foundation
 
-enum CreateUserResult {
+enum SignUpUserResult {
     case inProgress
     case success
-    case failure(error: CreateUserError)
+    case failure(error: SignUpUserError)
     
     var title: String {
         switch self {
         case .inProgress: "Создаём аккаунт..."
         case .success: "Аккаунт успешно создан"
-        case .failure(let error): error.title
+        case .failure(let error): error.errorTitle
         }
     }
     
@@ -24,7 +24,7 @@ enum CreateUserResult {
         switch self {
         case .inProgress: "Пожалуйста, подождите немного"
         case .success: "Добро пожаловать!"
-        case .failure(let error): error.description
+        case .failure(let error): error.errorMessage
         }
     }
 }
@@ -42,29 +42,32 @@ final class SignUpPresenter {
         self.authService = authService
         self.databaseService = databaseService
     }
-    
-    //MARK: - public methods
+}
+
+
+//MARK: - SignUpPresenterProtocol
+extension SignUpPresenter: SignUpPresenterProtocol {
     func didTapSignUpButton(email: String, password: String, passwordToConfirm: String) {
         guard !email.isEmpty else {
             printError("[SignUpPresenter] email is empty")
-            view?.showWarning(warning: "Email не может быть пустым")
+            view?.showWarning("Email не может быть пустым")
             return
         }
         
         guard password.count >= 6 else {
             printError("[SignUpPresenter] password.count <= 6")
-            view?.showWarning(warning: "Пароль должен состоять из 6 или более символов")
+            view?.showWarning("Пароль должен состоять из 6 или более символов")
             return
         }
         
         guard password == passwordToConfirm else {
             printError("[SignUpPresenter] password != passwordToConfirm")
-            view?.showWarning(warning: "Пароли должны совпадать")
+            view?.showWarning("Пароли должны совпадать")
             return
         }
         
         view?.isLabelHidden = true
-        view?.updateSignUpState(state: .inProgress, onDismiss: nil)
+        view?.updateSignUpState(.inProgress, onDismiss: nil)
         
         authService.signUp(email: email, password: password) { [weak self] result in
             guard let self = self else { return }
@@ -72,16 +75,17 @@ final class SignUpPresenter {
             case .success(let user):
                 databaseService.saveUser(user: user) { [weak self] in
                     DispatchQueue.main.async {
-                        self?.view?.updateSignUpState(state: .success, onDismiss: {
+                        self?.view?.updateSignUpState(.success, onDismiss: {
                             self?.navigationDelegate?.didSignUpSuccesfully()
                         })
                     }
                 }
             case .failure(let error):
                 DispatchQueue.main.async {
-                    self.view?.updateSignUpState(state: .failure(error: error), onDismiss: nil)
+                    self.view?.updateSignUpState(.failure(error: error), onDismiss: nil)
                 }
             }
         }
     }
+    
 }
