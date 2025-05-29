@@ -64,5 +64,6 @@ extension AuthCoordinator: SignUpNavigationDelegate {
 extension AuthCoordinator: SignInNavigationDelegate {
     func didSignInSuccesfully() {
         print("[AuthCoordinator] didSignIn")
+        onAuthSuccess?()
     }
 }

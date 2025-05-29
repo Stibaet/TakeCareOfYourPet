@@ -30,7 +30,7 @@ class AuthService: AuthServiceProtocol {
         }
     }
     
-    func signIn(email: String, password: String, completion: @escaping (Result<UserModel, SignInUserError>) -> Void) {
+    func signIn(email: String, password: String, completion: @escaping (Result<String, SignInUserError>) -> Void) {
         Auth.auth().signIn(withEmail: email, password: password) { result, error in
             if let error = error as? NSError {
                 let signInError = SignInUserError(error: AuthErrorCode(rawValue: error.code) ?? .internalError)
@@ -45,6 +45,10 @@ class AuthService: AuthServiceProtocol {
                 assertionFailure("Нет пользователя после успешной авторизаци")
                 return
             }
+            
+            completion(.success(firUser.uid))
+            
+            
         }
     }
 }
