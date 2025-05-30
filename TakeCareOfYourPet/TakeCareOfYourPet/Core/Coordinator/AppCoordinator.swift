@@ -22,29 +22,35 @@ protocol ParentCoordinator: Coordinator {
 }
 
 class AppCoordinator: ParentCoordinator {
-    func addChild(_ coordinator: Coordinator) {
-        childCoordinators.append(coordinator)
-    }
     
-    func removeChild(_ coordinator: Coordinator) {
-        childCoordinators.removeAll { $0 === coordinator }
-    }
-    
+    //MARK: - properties
     var childCoordinators: [Coordinator] = []
-    
     private let window: UIWindow
+    private let dependency: DependencyAssembly
     
-    init(window: UIWindow) {
+    var databaseService: DatabaseServiceProtocol { dependency.databaseService }
+    var authService: AuthServiceProtocol { dependency.authService }
+    
+    //MARK: - init
+    init(window: UIWindow, dependency: DependencyAssembly) {
         self.window = window
+        self.dependency = dependency
+        window.overrideUserInterfaceStyle = .light
     }
     
+    //MARK: - public methods
     func start() {
-        configureAppearance()
         let tabBarController = UITabBarController()
         
-        let petsCoordinator = PetsCoordinator()
-        let tasksCoordinator = TasksCoordinator()
-        let settingsCoordinator = SettingsCoordinator()
+        let petsNavVC = UINavigationController()
+        let tasksNavVC = UINavigationController()
+        let settingsNavVC = UINavigationController()
+        
+        let petsCoordinator = PetsCoordinator(navigationController: petsNavVC)
+        let tasksCoordinator = TasksCoordinator(navigationController: tasksNavVC)
+        let settingsCoordinator = SettingsCoordinator(navigationController: settingsNavVC, authService: authService, onLogoutSuccess: { [weak self] in
+            self?.showAuthFlow()
+        })
         
         childCoordinators = [petsCoordinator, tasksCoordinator, settingsCoordinator]
         childCoordinators.forEach { $0.start() }
@@ -59,29 +65,33 @@ class AppCoordinator: ParentCoordinator {
         window.rootViewController = tabBarController
         window.makeKeyAndVisible()
     }
+    
+    func showAuthFlow() {
+        let authNavVC = UINavigationController()
+        let authCoordinator = AuthCoordinator(navigationController: authNavVC, authService: authService,
+                                              databaseService: databaseService, onAuthSuccess: { [weak self] in
+            self?.start()
+        })
+        addChild(authCoordinator)
+        window.rootViewController = authNavVC
+        window.makeKeyAndVisible()
+        authCoordinator.start()
+    }
+}
+
+//MARK: - parent coordinator methods
+extension AppCoordinator {
+    func addChild(_ coordinator: Coordinator) {
+        childCoordinators.append(coordinator)
+    }
+    
+    func removeChild(_ coordinator: Coordinator) {
+        childCoordinators.removeAll { $0 === coordinator }
+    }
 }
 
 //MARK: - private methods
 private extension AppCoordinator {
-    func configureAppearance() {
-        let navBarAppearance = UINavigationBarAppearance()
-        navBarAppearance.configureWithOpaqueBackground()
-        navBarAppearance.backgroundColor = .white
-        navBarAppearance.titleTextAttributes = [.foregroundColor: UIColor.black]
-        
-        UINavigationBar.appearance().standardAppearance = navBarAppearance
-        UINavigationBar.appearance().scrollEdgeAppearance = navBarAppearance
-        UINavigationBar.appearance().compactAppearance = navBarAppearance
-        UINavigationBar.appearance().tintColor = .systemBlue
-        
-        let tabBarAppearance = UITabBarAppearance()
-        tabBarAppearance.configureWithOpaqueBackground()
-        tabBarAppearance.backgroundColor = .white
-        
-        UITabBar.appearance().standardAppearance = tabBarAppearance
-        UITabBar.appearance().scrollEdgeAppearance = tabBarAppearance
-    }
-    
     func setupTabBarItems(for tabBarController: UITabBarController) {
         guard let items = tabBarController.tabBar.items else { return }
         
@@ -93,7 +103,6 @@ private extension AppCoordinator {
         
         items[2].title = "Настройки"
         items[2].image = UIImage(systemName: "gear")
-        
     }
     
 }

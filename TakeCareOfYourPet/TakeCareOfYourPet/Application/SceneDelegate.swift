@@ -10,7 +10,8 @@ import UIKit
 class SceneDelegate: UIResponder, UIWindowSceneDelegate {
 
     var window: UIWindow?
-
+    var appCoordinator: AppCoordinator?
+    let dependencyAssembly = DependencyAssembly()
 
     func scene(_ scene: UIScene, willConnectTo session: UISceneSession, options connectionOptions: UIScene.ConnectionOptions) {
         // Use this method to optionally configure and attach the UIWindow `window` to the provided UIWindowScene `scene`.
@@ -19,9 +20,9 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         guard let windowScene = (scene as? UIWindowScene) else { return }
         
         window = UIWindow(windowScene: windowScene)
-        guard let window = window else { return }
-        let appCoordinator = AppCoordinator(window: window )
-        appCoordinator.start()
+        guard let window = window else { return }        
+        appCoordinator = AppCoordinator(window: window, dependency: dependencyAssembly)
+        appCoordinator?.showAuthFlow()
     }
 
     func sceneDidDisconnect(_ scene: UIScene) {
@@ -52,7 +53,7 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         // to restore the scene back to its current state.
 
         // Save changes in the application's managed object context when the application transitions to the background.
-        (UIApplication.shared.delegate as? AppDelegate)?.saveContext()
+//        (UIApplication.shared.delegate as? AppDelegate)?.saveContext()
     }
 
 
