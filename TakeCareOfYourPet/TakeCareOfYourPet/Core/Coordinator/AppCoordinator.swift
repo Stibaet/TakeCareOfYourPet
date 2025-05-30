@@ -48,7 +48,9 @@ class AppCoordinator: ParentCoordinator {
         
         let petsCoordinator = PetsCoordinator(navigationController: petsNavVC)
         let tasksCoordinator = TasksCoordinator(navigationController: tasksNavVC)
-        let settingsCoordinator = SettingsCoordinator(navigationController: settingsNavVC)
+        let settingsCoordinator = SettingsCoordinator(navigationController: settingsNavVC, authService: authService, onLogoutSuccess: { [weak self] in
+            self?.showAuthFlow()
+        })
         
         childCoordinators = [petsCoordinator, tasksCoordinator, settingsCoordinator]
         childCoordinators.forEach { $0.start() }

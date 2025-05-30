@@ -47,13 +47,11 @@ class SignInPresenter {
 extension SignInPresenter: SignInPresenterProtocol {
     func didTapSignInButton(email: String, password: String) {
         guard !email.isEmpty else {
-            printError("[SignUpPresenter] email is empty")
             view?.showWarning("Email не может быть пустым")
             return
         }
         
         guard password.count >= 6 else {
-            printError("[SignUpPresenter] password.count <= 6")
             view?.showWarning("Пароль должен состоять из 6 или более символов")
             return
         }

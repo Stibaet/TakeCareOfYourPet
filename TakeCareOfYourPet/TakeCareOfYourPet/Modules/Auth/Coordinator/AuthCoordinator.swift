@@ -26,10 +26,14 @@ class AuthCoordinator: NavigationCoordinator {
     
     //MARK: - public methods
     func start() {
-        print("start auth flow")
-        let welcomePresenter = WelcomePresenter(navigationDelegate: self)
+        let welcomePresenter = WelcomePresenter()
+        welcomePresenter.navigationDelegate = self
         let welcomeVC = WelcomeViewController(presenter: welcomePresenter)
         navigationController.setViewControllers([welcomeVC], animated: false)
+    }
+    
+    deinit {
+        printDeinit(self)
     }
 }
 
@@ -55,7 +59,6 @@ extension AuthCoordinator: WelcomeNavigationDelegate {
 //MARK: - SignUpNavigationDelegate
 extension AuthCoordinator: SignUpNavigationDelegate {
     func didSignUpSuccesfully() {
-        print("[AuthCoordinator] didSignUp")
         onAuthSuccess?()
     }
 }
@@ -63,7 +66,6 @@ extension AuthCoordinator: SignUpNavigationDelegate {
 //MARK: - SignInNavigationDelegate
 extension AuthCoordinator: SignInNavigationDelegate {
     func didSignInSuccesfully() {
-        print("[AuthCoordinator] didSignIn")
         onAuthSuccess?()
     }
 }

@@ -36,14 +36,14 @@ class WelcomeViewController: UIViewController {
     }()
     
     //MARK: - properties
-    private let presenter: WelcomePresenter
+    private let presenter: WelcomePresenterProtocol
     
     //MARK: - override
     override func viewDidLoad() {
         configureUI()
     }
     
-    init(presenter: WelcomePresenter) {
+    init(presenter: WelcomePresenterProtocol) {
         self.presenter = presenter
         super.init(nibName: nil, bundle: nil)
     }
@@ -77,12 +77,10 @@ private extension WelcomeViewController {
     }
     
     @objc func signUpButtonPressed() {
-        print("[welcomeVC] signUpButton")
         presenter.didTapSignUpButton()
     }
     
     @objc func signInButtonPressed() {
-        print("[welcomeVC] signInButton")
         presenter.didTapSignInButton()
     }
 }

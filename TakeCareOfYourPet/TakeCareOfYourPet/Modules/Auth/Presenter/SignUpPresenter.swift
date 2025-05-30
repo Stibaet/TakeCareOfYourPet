@@ -49,19 +49,16 @@ final class SignUpPresenter {
 extension SignUpPresenter: SignUpPresenterProtocol {
     func didTapSignUpButton(email: String, password: String, passwordToConfirm: String) {
         guard !email.isEmpty else {
-            printError("[SignUpPresenter] email is empty")
             view?.showWarning("Email не может быть пустым")
             return
         }
         
         guard password.count >= 6 else {
-            printError("[SignUpPresenter] password.count <= 6")
             view?.showWarning("Пароль должен состоять из 6 или более символов")
             return
         }
         
         guard password == passwordToConfirm else {
-            printError("[SignUpPresenter] password != passwordToConfirm")
             view?.showWarning("Пароли должны совпадать")
             return
         }

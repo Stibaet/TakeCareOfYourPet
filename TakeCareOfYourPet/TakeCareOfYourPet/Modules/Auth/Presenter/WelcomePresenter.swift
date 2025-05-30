@@ -5,12 +5,8 @@
 //  Created by Матвей Анкудимов on 02.05.2025.
 //
 
-class WelcomePresenter {
-    private weak var navigationDelegate: WelcomeNavigationDelegate?
-    
-    init(navigationDelegate: WelcomeNavigationDelegate) {
-        self.navigationDelegate = navigationDelegate
-    }
+class WelcomePresenter: WelcomePresenterProtocol {
+    weak var navigationDelegate: WelcomeNavigationDelegate?
     
     func didTapSignUpButton() {
         navigationDelegate?.showSignUpScreen()
@@ -21,7 +17,7 @@ class WelcomePresenter {
     }
     
     deinit {
-        print("[WelcomePresenter] deinit")
+        printDeinit(self)
     }
 
 }

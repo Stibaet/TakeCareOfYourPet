@@ -18,3 +18,9 @@ func printError(_ error: String) {
     print("ERROR🚨: \(error)")
 #endif
 }
+
+func printDeinit<T>(_ instance: T) {
+#if DEBUG
+    print("DEINIT: \(String(describing: type(of: instance)))")
+#endif
+}

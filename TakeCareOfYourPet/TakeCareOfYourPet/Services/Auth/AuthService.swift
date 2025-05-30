@@ -51,4 +51,15 @@ class AuthService: AuthServiceProtocol {
             
         }
     }
+    
+    func logout(completion: @escaping (Result<Void, Error>) -> Void) {
+        do {
+            try Auth.auth().signOut()
+            completion(.success(()))
+        }
+        catch {
+            completion(.failure(error))
+            assertionFailure(error.localizedDescription)
+        }
+    }
 }
