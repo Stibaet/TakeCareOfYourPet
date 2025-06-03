@@ -25,6 +25,19 @@ extension Pet {
     @NSManaged public var isNeutered: Bool
     @NSManaged public var owner: User
     @NSManaged public var tasks: NSOrderedSet?
+    
+    convenience init(context: NSManagedObjectContext, model: PetModel, owner: User) {
+        self.init(context: context)
+        self.id = model.id
+        self.name = model.name
+        self.age = Int16(model.age)
+        self.breed = model.breed
+        self.weight = Int16(model.weight)
+        self.type = model.type
+        self.isNeutered = model.isNeutered
+        self.owner = owner
+        self.tasks = NSOrderedSet(array: model.tasks)
+    }
 
 }
 

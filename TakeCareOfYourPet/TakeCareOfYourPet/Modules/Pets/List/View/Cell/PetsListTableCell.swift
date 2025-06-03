@@ -1,5 +1,5 @@
 //
-//  PetTableCell.swift
+//  PetsListTableCell.swift
 //  TakeCareOfYourPet
 //
 //  Created by Матвей Анкудимов on 30.04.2025.
@@ -7,7 +7,7 @@
 
 import UIKit
 
-class PetTableCell: UITableViewCell {
+class PetsListTableCell: UITableViewCell {
     static let reuseID = "PetTableCell"
     
     //MARK: - UI
@@ -25,7 +25,7 @@ class PetTableCell: UITableViewCell {
 }
 
 //MARK: - private methods
-private extension PetTableCell {
+private extension PetsListTableCell {
     func configureUI() {
         backgroundColor = .systemBlue
         addSubview(nameLabel)

@@ -1,5 +1,5 @@
 //
-//  PetsViewController.swift
+//  PetsListViewController.swift
 //  TakeCareOfYourPet
 //
 //  Created by Матвей Анкудимов on 29.04.2025.
@@ -7,13 +7,13 @@
 
 import UIKit
 
-class PetsViewController: UIViewController {
+class PetsListViewController: UIViewController {
     
     //MARK: - UI
     private lazy var petsTableView: UITableView = {
         let tableView = UITableView(frame: .zero)
         tableView.translatesAutoresizingMaskIntoConstraints = false
-        tableView.register(PetTableCell.self, forCellReuseIdentifier: PetTableCell.reuseID)
+        tableView.register(PetsListTableCell.self, forCellReuseIdentifier: PetsListTableCell.reuseID)
         tableView.backgroundColor = .systemPink
         tableView.dataSource = self
         tableView.delegate = self
@@ -21,16 +21,29 @@ class PetsViewController: UIViewController {
         return tableView
     }()
     
+    //MARK: - properties
+    private let presenter: PetsListPresenterProtocol
+    
     //MARK: - override
     override func viewDidLoad() {
         super.viewDidLoad()
         configureUI()
         
     }
+    
+    //MARK: - init
+    init(presenter: PetsListPresenterProtocol) {
+        self.presenter = presenter
+        super.init(nibName: nil, bundle: nil)
+    }
+    
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
 }
 
 //MARK: - private methods
-private extension PetsViewController {
+private extension PetsListViewController {
     func configureUI() {
         view.backgroundColor = .white
         view.addSubview(petsTableView)
@@ -41,17 +54,20 @@ private extension PetsViewController {
             petsTableView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
             petsTableView.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor)
         ])
+        
+        navigationItem.title = "Питомцы"
+        navigationItem.rightBarButtonItem = UIBarButtonItem(systemItem: .add)
     }
 }
 
 //MARK: - UITableViewDataSource
-extension PetsViewController: UITableViewDataSource {
+extension PetsListViewController: UITableViewDataSource {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         10
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: PetTableCell.reuseID, for: indexPath)
+        let cell = tableView.dequeueReusableCell(withIdentifier: PetsListTableCell.reuseID, for: indexPath)
         
         return cell
     }
@@ -60,8 +76,13 @@ extension PetsViewController: UITableViewDataSource {
 }
 
 //MARK: - UITableViewDelegate
-extension PetsViewController: UITableViewDelegate {
+extension PetsListViewController: UITableViewDelegate {
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         return 120
     }
+}
+
+//MARK: - pets view protocol methods
+extension PetsListViewController: PetsListViewProtocol {
+    
 }

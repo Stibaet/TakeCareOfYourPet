@@ -42,11 +42,11 @@ class AppCoordinator: ParentCoordinator {
     func start() {
         let tabBarController = UITabBarController()
         
-        let petsNavVC = UINavigationController()
+        let petsListNavVC = UINavigationController()
         let tasksNavVC = UINavigationController()
         let settingsNavVC = UINavigationController()
         
-        let petsCoordinator = PetsCoordinator(navigationController: petsNavVC)
+        let petsCoordinator = PetsListCoordinator(navigationController: petsListNavVC)
         let tasksCoordinator = TasksCoordinator(navigationController: tasksNavVC)
         let settingsCoordinator = SettingsCoordinator(navigationController: settingsNavVC, authService: authService, onLogoutSuccess: { [weak self] in
             self?.showAuthFlow()

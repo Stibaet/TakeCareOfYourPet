@@ -7,7 +7,7 @@
 
 import UIKit
 
-class PetsCoordinator: ParentCoordinator {
+class PetsListCoordinator: ParentCoordinator {
     func addChild(_ coordinator: Coordinator) {
         childCoordinators.append(coordinator)
     }
@@ -25,7 +25,9 @@ class PetsCoordinator: ParentCoordinator {
     }
     
     func start() {
-        let petsVC = PetsViewController()
+        let presenter = PetsListPresenter()
+        let petsVC = PetsListViewController(presenter: presenter)
+        presenter.view = petsVC
         navigationController.viewControllers = [petsVC]
     }
     
