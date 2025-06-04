@@ -5,7 +5,7 @@
 //  Created by Матвей Анкудимов on 07.05.2025.
 //
 
-class DependencyAssembly {
+final class DependencyAssembly {
     let authService: AuthServiceProtocol
     let databaseService: DatabaseServiceProtocol
     let coreDataService: CoreDataServiceProtocol

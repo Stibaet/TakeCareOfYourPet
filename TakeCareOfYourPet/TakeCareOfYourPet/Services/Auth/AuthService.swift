@@ -7,7 +7,7 @@
 
 import FirebaseAuth
 
-class AuthService: AuthServiceProtocol {
+final class AuthService: AuthServiceProtocol {
     func signUp(email: String, password: String, completion: @escaping (Result<UserModel, SignUpUserError>) -> Void) {
         Auth.auth().createUser(withEmail: email, password: password) { result, error in
             if let error = error as? NSError {

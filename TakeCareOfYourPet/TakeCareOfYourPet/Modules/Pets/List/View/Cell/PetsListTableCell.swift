@@ -7,7 +7,7 @@
 
 import UIKit
 
-class PetsListTableCell: UITableViewCell {
+final class PetsListTableCell: UITableViewCell {
     static let reuseID = "PetTableCell"
     
     //MARK: - UI

@@ -7,7 +7,7 @@
 
 import UIKit
 
-class PetsListViewController: UIViewController {
+final class PetsListViewController: UIViewController {
     
     //MARK: - UI
     private lazy var petsTableView: UITableView = {
@@ -54,9 +54,14 @@ private extension PetsListViewController {
             petsTableView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
             petsTableView.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor)
         ])
-        
+    }
+    
+    func configureNavBar() {
+        let addAction = UIAction { [weak self] _ in
+            self?.presenter.didTapAddButton()
+        }
         navigationItem.title = "Питомцы"
-        navigationItem.rightBarButtonItem = UIBarButtonItem(systemItem: .add)
+        navigationItem.rightBarButtonItem = UIBarButtonItem(systemItem: .add, primaryAction: addAction)
     }
 }
 

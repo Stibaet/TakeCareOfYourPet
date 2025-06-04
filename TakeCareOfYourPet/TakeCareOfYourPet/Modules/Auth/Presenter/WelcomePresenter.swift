@@ -5,7 +5,7 @@
 //  Created by Матвей Анкудимов on 02.05.2025.
 //
 
-class WelcomePresenter: WelcomePresenterProtocol {
+final class WelcomePresenter: WelcomePresenterProtocol {
     weak var navigationDelegate: WelcomeNavigationDelegate?
     
     func didTapSignUpButton() {

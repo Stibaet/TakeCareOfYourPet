@@ -7,7 +7,7 @@
 
 import UIKit
 
-class SettingsCoordinator: NavigationCoordinator {
+final class SettingsCoordinator: NavigationCoordinator {
     
     //MARK: - properties
     var navigationController: UINavigationController

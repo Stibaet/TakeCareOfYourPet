@@ -7,7 +7,7 @@
 
 import UIKit
 
-class TasksCoordinator: ParentCoordinator {
+final class TasksCoordinator: ParentCoordinator {
     func addChild(_ coordinator: Coordinator) {
         childCoordinators.append(coordinator)
     }

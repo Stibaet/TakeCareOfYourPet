@@ -21,7 +21,7 @@ protocol ParentCoordinator: Coordinator {
     func removeChild(_ coordinator: Coordinator)
 }
 
-class AppCoordinator: ParentCoordinator {
+final class AppCoordinator: ParentCoordinator {
     
     //MARK: - properties
     var childCoordinators: [Coordinator] = []

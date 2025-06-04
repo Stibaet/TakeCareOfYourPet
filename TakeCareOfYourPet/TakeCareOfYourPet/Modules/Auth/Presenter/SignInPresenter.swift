@@ -29,7 +29,7 @@ enum SignInUserResult {
     }
 }
 
-class SignInPresenter {
+final class SignInPresenter {
     
     //MARK: - properties
     weak var navigationDelegate: SignInNavigationDelegate?

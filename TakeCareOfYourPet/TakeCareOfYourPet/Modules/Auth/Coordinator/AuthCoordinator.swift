@@ -7,7 +7,7 @@
 
 import UIKit
 
-class AuthCoordinator: NavigationCoordinator {
+final class AuthCoordinator: NavigationCoordinator {
     var navigationController: UINavigationController
     var onAuthSuccess: (() -> Void)?
     

@@ -7,7 +7,7 @@
 
 import UIKit
 
-class WelcomeViewController: UIViewController {
+final class WelcomeViewController: UIViewController {
     
     //MARK: - UI
     private lazy var welcomeLabel = UILabel(text: "Hello!", font: .systemFont(ofSize: 16, weight: .regular), textColor: .black, alignment: .center)

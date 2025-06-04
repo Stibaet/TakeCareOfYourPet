@@ -5,7 +5,7 @@
 //  Created by Матвей Анкудимов on 29.05.2025.
 //
 
-class SettingsPresenter {
+final class SettingsPresenter {
     
     //MARK: - properties
     weak var view: SettingsViewController?

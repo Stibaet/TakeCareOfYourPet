@@ -7,7 +7,7 @@
 
 import UIKit
 
-class PetsListCoordinator: ParentCoordinator {
+final class PetsListCoordinator: ParentCoordinator {
     func addChild(_ coordinator: Coordinator) {
         childCoordinators.append(coordinator)
     }
@@ -28,7 +28,22 @@ class PetsListCoordinator: ParentCoordinator {
         let presenter = PetsListPresenter()
         let petsVC = PetsListViewController(presenter: presenter)
         presenter.view = petsVC
+        presenter.navigationDelegate = self
         navigationController.viewControllers = [petsVC]
+    }
+}
+
+//MARK: - private methods
+private extension PetsListCoordinator {
+    func showCreatePetFlow() {
+        
+    }
+}
+
+//MARK: - PetsListNavigationDelegateProtocol
+extension PetsListCoordinator: PetsListNavigationDelegate {
+    func showCreatePetScreen() {
+        
     }
     
     
